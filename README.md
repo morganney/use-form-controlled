@@ -12,28 +12,28 @@ First `npm i use-form-controlled react react-dom`.
 ### Basic
 
 ```js
-  import { useForm } from 'use-form-controlled'
+import { useForm } from 'use-form-controlled'
 
-  const { register, error, isInvalid, handleOnSubmit } = useForm(
-    {
-      firstName(form) {
-        if (!form.firstName?.trim()) {
-          return 'First Name is required'
-        }
+const { register, error, isInvalid, handleOnSubmit } = useForm(
+  {
+    firstName(form) {
+      if (!form.firstName?.trim()) {
+        return 'First Name is required'
       }
     }
-  )
+  }
+)
 
-  return (
-    <form onSubmit={handleOnSubmit(form => console.log(form.firstName))} noValidate>
-      <label>
-        First Name:
-        <input {...register('firstName', { required: true }) />
-      </label>
-      {error.firstName && <span>{error.firstName}</span>}
-      <button type="submit" disabled={isInvalid}>Submit</button>
-    </form>
-  )
+return (
+  <form onSubmit={handleOnSubmit(form => console.log(form.firstName))} noValidate>
+    <label>
+      First Name:
+      <input {...register('firstName', { required: true })} />
+    </label>
+    {error.firstName && <span>{error.firstName}</span>}
+    <button type="submit" disabled={isInvalid}>Submit</button>
+  </form>
+)
 ```
 
 ### Native HTML Validation
@@ -153,7 +153,7 @@ return (
 
 ### Data Type Validation and Submission
 
-All form values are cast to strings in the DOM, so if you need to parse a form field to derive an expected type during validation, you can define a custom `parser` as an option to `register` or use one of the built-in parsers via an available option, like `parseAsInt` or `parseAsNumber`. With this configuration your validators will receive parsed form values and **form submissions will transmit the parsed values** as well.
+All form values are cast to strings in the DOM, so if you need to parse a form field to derive an expected type during validation, you can define a custom `parser` as an option to `register` or use one of the built-in parsers via an available option, like `parseAsInt` or `parseAsNumber`. With this configuration your validators and `handleOnSubmit` callback will receive parsed form values.
 
 ```js
 const { register, error, isInvalid, handleOnSubmit } = useForm({
