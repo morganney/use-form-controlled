@@ -94,13 +94,10 @@ const useForm = (config = {}) => {
     [value]
   )
   const hasBlankRequired = useMemo(() => {
-    return (
-      isBlank ||
-      Object.keys(required)
-        .filter(field => required[field])
-        .some(field => value[field] === undefined)
-    )
-  }, [isBlank, required, value])
+    return Object.keys(required)
+      .filter(field => required[field])
+      .some(field => value[field] === undefined)
+  }, [required, value])
   const hasValidationError = useMemo(() => {
     return validationFields.some(field => error[field])
   }, [validationFields, error])
