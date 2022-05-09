@@ -28,7 +28,10 @@ const init = config => {
   reducerInitialState.required = defaultInitial
 
   if (config.initialValues) {
-    reducerInitialState.value = config.initialValues
+    reducerInitialState.value = {
+      ...defaultInitial,
+      ...config.initialValues
+    }
   }
 
   return {
@@ -50,6 +53,7 @@ const reducer = (state, action) => {
   }
 }
 const defaultRegisterOptions = {
+  binary: false,
   required: false,
   runAsyncCheck: false,
   parser: val => val,
@@ -183,7 +187,16 @@ const useForm = (config = {}) => {
       evt.preventDefault()
 
       if (await isValid()) {
-        onSubmit({ ...value, ...parsedFieldValues.current }, evt)
+        const parsedValues = {}
+
+        Object.keys(value).forEach(field => {
+          if (value[field] !== undefined) {
+            parsedValues[field] =
+              parsedFieldValues.current[field] ?? parser.current[field](value[field])
+          }
+        })
+
+        onSubmit({ ...value, ...parsedValues }, evt)
       }
     }
   }, [value, validators, validationFields])
@@ -196,6 +209,7 @@ const useForm = (config = {}) => {
    * parseAsNumber: boolean - Whether the form value entered should be parsed as a number before validating. Supersedes `parser` option.
    * parseAsInt: boolean - Whether the form value entered should be parsed as an integer before validationg. Supersedes `parser` option.
    * parser: function - Receives the form field value and should return the parsed representation. Parsed value passed to validator.
+   * binary: boolean - Should the field input be read from the evt.target.checked property instead of evt.target.value during onChange (Checkbox, Switch, etc.).
    *
    * @param {string} name The name of the form field which should match a key from API data
    * @param {object} opts Options to configure return values and behavior
@@ -204,16 +218,16 @@ const useForm = (config = {}) => {
   const register = useCallback(
     (name, opts = {}) => {
       const options = { ...defaultRegisterOptions, ...opts }
-      const { required: isRequired, runAsyncCheck } = options
+      const { required: isRequired, binary, runAsyncCheck } = options
       const parse = getParse(options)
       const onChange = async evt => {
         dispatch({
           type: 'update',
-          payload: { [name]: evt.target.value }
+          payload: { [name]: evt.target[binary ? 'checked' : 'value'] }
         })
 
         if (error[name]) {
-          const parsed = parse(evt.target.value)
+          const parsed = parse(evt.target[binary ? 'checked' : 'value'])
 
           parsedFieldValues.current[name] = parsed
           dispatch({
@@ -229,7 +243,7 @@ const useForm = (config = {}) => {
       }
       let onBlur = () => {}
 
-      if (isRequired || validationFields.includes(name)) {
+      if (validationFields.includes(name)) {
         onBlur = async () => {
           const parsed = parse(value[name])
 
@@ -291,6 +305,7 @@ const useForm = (config = {}) => {
     handleOnSubmit,
     setValue,
     setValidation,
+    required: requiredFields.current,
     parser: parser.current
   }
 }
