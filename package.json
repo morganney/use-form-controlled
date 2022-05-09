@@ -1,6 +1,6 @@
 {
   "name": "use-form-controlled",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "React hook for managing form state, validation, and submission with controlled inputs.",
   "main": "dist",
   "repository": {
