@@ -11,9 +11,9 @@
     "url": "https://github.com/morganney/use-form-controlled/issues"
   },
   "scripts": {
+    "prettier": "prettier -w .",
     "prepack": "babel src --out-dir dist",
     "lint": "eslint src __tests__ --ext .js",
-    "lint:fix": "npm run lint -- --fix",
     "test": "jest"
   },
   "keywords": [
@@ -28,26 +28,33 @@
     "dist"
   ],
   "peerDependencies": {
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react": ">=17.0.2",
+    "react-dom": ">=17.0.2"
   },
   "devDependencies": {
-    "@babel/cli": "^7.16.8",
-    "@babel/core": "^7.16.7",
-    "@babel/eslint-parser": "^7.16.5",
-    "@babel/preset-env": "^7.16.8",
-    "@babel/preset-react": "^7.16.7",
-    "@testing-library/react-hooks": "^7.0.2",
-    "browserslist": "^4.19.1",
-    "eslint": "^8.7.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-jest": "^25.7.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-react": "^7.28.0",
-    "eslint-plugin-react-hooks": "^4.3.0",
-    "eslint-plugin-testing-library": "^5.0.3",
+    "@babel/cli": "^7.23.9",
+    "@babel/core": "^7.23.9",
+    "@babel/eslint-parser": "^7.23.10",
+    "@babel/preset-env": "^7.23.9",
+    "@babel/preset-react": "^7.23.3",
+    "@testing-library/react-hooks": "^8.0.1",
+    "browserslist": "^4.22.3",
+    "eslint": "^8.56.0",
+    "eslint-plugin-jest": "^27.6.3",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-testing-library": "^6.2.0",
     "esm": "^3.2.25",
-    "jest": "^27.4.7",
-    "prettier": "^2.5.1"
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "prettier": "^3.2.5"
+  },
+  "prettier": {
+    "arrowParens": "avoid",
+    "bracketSameLine": true,
+    "printWidth": 90,
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "none"
   }
 }
