@@ -9,8 +9,7 @@ module.exports = {
     'eslint:recommended',
     'plugin:react/recommended',
     'plugin:react/jsx-runtime',
-    'plugin:jest/recommended',
-    'plugin:prettier/recommended'
+    'plugin:jest/recommended'
   ],
   parser: '@babel/eslint-parser',
   parserOptions: {
@@ -20,7 +19,7 @@ module.exports = {
       jsx: true
     }
   },
-  plugins: ['react', 'react-hooks', 'jest', 'testing-library', 'prettier'],
+  plugins: ['react', 'react-hooks', 'jest', 'testing-library'],
   settings: {
     react: {
       version: 'detect'

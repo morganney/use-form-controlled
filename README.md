@@ -14,15 +14,13 @@ First `npm i use-form-controlled react react-dom`.
 ```js
 import { useForm } from 'use-form-controlled'
 
-const { register, error, isInvalid, handleOnSubmit } = useForm(
-  {
-    firstName(form) {
-      if (!form.firstName?.trim()) {
-        return 'First Name is required'
-      }
+const { register, error, isInvalid, handleOnSubmit } = useForm({
+  firstName(form) {
+    if (!form.firstName?.trim()) {
+      return 'First Name is required'
     }
   }
-)
+})
 
 return (
   <form onSubmit={handleOnSubmit(form => console.log(form.firstName))} noValidate>
@@ -31,12 +29,15 @@ return (
       <input {...register('firstName', { required: true })} />
     </label>
     {error.firstName && <span>{error.firstName}</span>}
-    <button type="submit" disabled={isInvalid}>Submit</button>
+    <button type="submit" disabled={isInvalid}>
+      Submit
+    </button>
   </form>
 )
 ```
 
 ### Native HTML Validation
+
 You can have your form use controlled input while also falling back to native HTML form validation. Be sure to NOT use the `noValidate` attribute on your form.
 
 ```js
@@ -45,13 +46,17 @@ const { register, isInvalid, handleOnSubmit } = useForm()
 return (
   <form onSubmit={handleOnSubmit(form => console.log(form))}>
     <input required type="email" {...register('email')} />
-    <button type="submit" disabled={isInvalid}>Submit</button>
+    <button type="submit" disabled={isInvalid}>
+      Submit
+    </button>
   </form>
 )
 ```
 
 ### Initialization
+
 You can initialize form values with either `setValue` (inside a `useEffect` most likely), or with the `initialValues` option to `useForm`. The latter will have one less render cycle, but may not satisfy all use cases (like if your form initialization depends on an async process like an API request).
+
 ```js
 import { useForm } from 'use-form-controlled'
 import TextField from '@mui/material/TextField'
@@ -78,6 +83,7 @@ useEffect(() => {
   }
 }, [data])
 ```
+
 ### Dependent Validation
 
 Sometimes validation of one form field depends on the value of another. The valdiators defined get passed all form values as their first argument.
@@ -100,15 +106,13 @@ return (
       helperText={error.fieldA}
       {...register('fieldA', { required: Boolean(value.fieldB) })}
     />
-    <TextField
-      label="fieldB"
-      {...register('fieldB')}
-    />
-    <button type="submit" disabled={isInvalid}>Submit</button>
+    <TextField label="fieldB" {...register('fieldB')} />
+    <button type="submit" disabled={isInvalid}>
+      Submit
+    </button>
   </form>
 )
 ```
-
 
 ### Async Validation
 
@@ -121,10 +125,10 @@ const { register, value, error, isInvalid, handleOnSubmit } = useForm({
       if (!form?.username.trim()) {
         return 'Username is required'
       }
-      
+
       if (checkAvailability) {
         const isAvailable = await api.fetch('/availability', form.username)
-        
+
         if (!isAvailable) {
           return `Username must be unique, the one chosen is already taken`
         }
@@ -144,9 +148,14 @@ return (
       label="username"
       error={Boolean(error.username)}
       helperText={error.username}
-      {...register('username', { required: true, runAsyncCheck: value.username !== initialUsername })}
+      {...register('username', {
+        required: true,
+        runAsyncCheck: value.username !== initialUsername
+      })}
     />
-    <button type="submit" disabled={isInvalid}>Submit</button>
+    <button type="submit" disabled={isInvalid}>
+      Submit
+    </button>
   </form>
 )
 ```
@@ -168,12 +177,15 @@ return (
   <form onSubmit={handleOnSubmit(form => console.log(form))} noValidate>
     <input {...register('age', { required: true, parseAsInt: true })} />
     {error.age && <span>{error.age}</span>}
-    <button type="submit" diabled={isInvalid}>Submit</button>
+    <button type="submit" diabled={isInvalid}>
+      Submit
+    </button>
   </form>
 )
 ```
 
 This would be the same as defining a custom `parser` in the options passed to `register`. For example,
+
 ```js
 register('age', { required: true, parser: val => parseInt(val, 10) })
 ```
