@@ -1,8 +1,21 @@
 {
   "name": "use-form-controlled",
-  "version": "1.1.2",
+  "version": "1.1.3",
+  "type": "module",
   "description": "React hook for managing form state, validation, and submission with controlled inputs.",
   "main": "dist",
+  "exports": {
+    ".": {
+      "import": {
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "default": "./dist/index.cjs"
+      },
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/morganney/use-form-controlled.git"
@@ -12,7 +25,7 @@
   },
   "scripts": {
     "prettier": "prettier -w .",
-    "prepack": "babel src --out-dir dist",
+    "prepack": "babel-dual-package src --no-cjs-dir",
     "lint": "eslint src __tests__ --ext .js",
     "test": "jest"
   },
@@ -38,6 +51,7 @@
     "@babel/preset-env": "^7.23.9",
     "@babel/preset-react": "^7.23.3",
     "@testing-library/react-hooks": "^8.0.1",
+    "babel-dual-package": "^1.1.3",
     "browserslist": "^4.22.3",
     "eslint": "^8.56.0",
     "eslint-plugin-jest": "^27.6.3",
